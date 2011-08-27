@@ -12,6 +12,17 @@ $(document).ready(function(){
 		layers : [ cloudmade ],
 		zoomControl : false
 	});
-
 		
+});
+
+
+var socket = io.connect('/');
+socket.on('init', function (data) {
+	/* TODO Receive GeoJSON here */
+	console.log(JSON.stringify(data));
+});
+
+socket.on('event', function (step) {
+	/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
+	console.log(JSON.stringify(step));
 });
