@@ -27,8 +27,8 @@ io.sockets.on('connection', function (socket) {
 	socket.emit('init', { hello: 'geoJSON' });
 });
 
-
-/* event simulator, throws an event every 10 secs. */
+/* event simulator, throws an event every 10 secs. 
+ * test: http://localhost:7777/event-simulator.html */
 var events= require("./lib/event-simulator/event-simulator.js");
 events.init(7, function(step) {
 	/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
