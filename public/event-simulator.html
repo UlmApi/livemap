@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+	"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de">
+<head>
+	<title>socket.io</title>
+	
+	<script src="/socket.io/socket.io.js"></script>
+<body>
+
+	<div id="map" style="height: 200px"></div> <!-- width equals available horizontal space by default -->
+ 
+	<script>
+	  var socket = io.connect('http://localhost');
+	  socket.on('news', function (data) {
+	    console.log(JSON.stringify(data));
+	  });
+	</script>
+	
+</body>
+</html>
