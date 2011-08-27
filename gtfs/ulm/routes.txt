@@ -1,4 +1,4 @@
-"﻿""route_id""","agency_id","route_short_name","route_long_name","route_type","route_color"
+"route_id","agency_id","route_short_name","route_long_name","route_type","route_color"
 "87001",,"1","Söflingen–Böfingen","0",
 "87003",,"3","Wiblingen (Alte Siedlung)–Wissenschaftsstadt ","3",
 "99003",,"3MobilSAM","Botanischer Garten-Science Park II","3",
