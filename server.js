@@ -4,6 +4,10 @@ var express = require('express');
 var ejs = require('ejs');
 var io = require('socket.io');
 
+var events = require("./lib/event-simulator/event-simulator.js");
+var mapDataGenerator = require("./lib/map-data-generator/map-data-generator.js");
+mapDataGenerator.gen("./gtfs/ulm/");
+
 var app = express.createServer();
 
 app.configure(function() {
@@ -23,13 +27,21 @@ console.log('Listening on ' + app.address().port);
 
 io = io.listen(app);
 io.sockets.on('connection', function (socket) {
-	/* TODO GeoJSON still missing here! */
-	socket.emit('init', { hello: 'geoJSON' });
+	
+	socket.on('get', function (get) {
+		if (get.data === "stops")
+			socket.emit('stops', mapDataGenerator.getStops());
+		else if (get.data === "shapes")
+			socket.emit('shapes', mapDataGenerator.getShapes());
+		else if (get.data === "trips")
+			socket.emit('trips', mapDataGenerator.getTrips());
+	});
+	
 });
 
+
 /* event simulator, throws an event every 10 secs. */
-var events= require("./lib/event-simulator/event-simulator.js");
 events.init(7, function(step) { /* 7 = speed (0..) */
 	io.sockets.emit('event', step);
-}); 
+});
 

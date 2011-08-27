@@ -17,12 +17,25 @@ $(document).ready(function(){
 
 
 var socket = io.connect('/');
-socket.on('init', function (data) {
-	/* TODO Receive GeoJSON here */
-	console.log(JSON.stringify(data));
-});
 
+/* event simulator, throws an event every 10 secs. */
 socket.on('event', function (step) {
 	/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
 	console.log(JSON.stringify(step));
 });
+
+socket.emit('get', {"data": "stops"});
+socket.on('stops', function (data) {
+	console.log(JSON.stringify(data));
+});
+
+socket.emit('get', {"data": "shapes"});
+socket.on('shapes', function (data) {
+	console.log(JSON.stringify(data));
+});
+
+socket.emit('get', {"data": "trips"});
+socket.on('trips', function (data) {
+	console.log(JSON.stringify(data));
+});
+
