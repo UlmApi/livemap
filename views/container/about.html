@@ -1,39 +1,55 @@
 <div class="container">
      <div class="hero-unit">
         <h1>LiveMap</h1>
-        <p>Real-time visualization of public transportion in the City of Ulm, Germany.</p>
+        <p>Real-time visualization of public transportation in the City of Ulm, Germany.</p>
       </div>
 
       <!-- Example row of columns -->
       <div class="row">
         <div class="span11">
           <h2>What is this?</h2>
-          <p>This application is a contribution to the Node Knockout 2011 by <a href="http://ulmapi.de/">UlmApi.de</a> members.</p>
+          <p>The application visualizes the movement of public transportation vehicles in the City of Ulm, Germany. Due to missing live data provided by 
+          the authorities, we scrapped available data and converted them to the GTFS format. We then implemented a simple GTFS parser that emulates 
+          the emission of real time events, though based on the static schedule. We hope to evenutally switch the backend event emitter by real time data in the future.
+          The emitted events are consumed by the web application, which renders a map and moves markers according to the estimated location of each vehicle.</p>
+          <h2>Why?</h2>
+          <p>This application is a contribution to the Node Knockout 2011 by <a href="http://ulmapi.de/">UlmApi.de</a> members.
+          We implemented this proof-of-concept prototype within two days.</p>
         </div>
         <div class="span5">
           <h2>Technologies used</h2>
 			 <dl>
 		        <dt>node.js</dt>
         		<dd>General platform</dd>
-        	 </dl>
-			 <dl>
 		        <dt>express.js</dt>
         		<dd>Middleware framework</dd>
-        	 </dl>
-			 <dl>
 		        <dt>Socket.IO</dt>
         		<dd>Messaging library</dd>
-        	 </dl>
-			 <dl>
 		        <dt>Leaflet</dt>
         		<dd>JavaScript mapping library</dd>
-        	 </dl>
-			 <dl>
 		        <dt>bootstrap</dt>
         		<dd>CSS template</dd>
         	 </dl>
        </div>
       </div>
-      
+      <div class="row">
+        <div class="span11">      
+          <h2>Team</h2>
+			 <dl>
+		        <dt>Michael Müller</dt>
+        		<dd></dd>
+		        <dt>Simon Fuchs</dt>
+        		<dd></dd>
+		        <dt>Benjamin Erb</dt>
+        		<dd></dd>
+		        <dt>Stefan Kaufmann</dt>
+        		<dd></dd>
+        	 </dl>
+        </div>
+        <div class="span5">
+          <h2>What is UlmApi.de?</h2>
+          <p>We are a group of open data enthusiasts, mostly from the University of Ulm.</p>
+       </div>
+      </div>
 </div>
 
