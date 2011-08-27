@@ -1,12 +1,14 @@
+var path = require('path');
 var http = require('http');
+
 var nko = require('nko')('R8N+nroFbZPS6D4n');
 var express = require('express');
 var ejs = require('ejs');
 var io = require('socket.io');
 
-var events = require("./lib/event-simulator/event-simulator.js");
-var mapDataGenerator = require("./lib/map-data-generator/map-data-generator.js");
-mapDataGenerator.gen("./gtfs/ulm/");
+
+var events = require(path.join(__dirname,"lib","event-simulator","event-simulator.js"));
+var mapDataGenerator = require(path.join(__dirname,"lib","map-data-generator","map-data-generator.js"));
 
 var app = express.createServer();
 
@@ -19,10 +21,10 @@ app.configure(function() {
 	app.set('view engine', 'html');
 });
 
-require(__dirname + '/routes/site')(app);
+require(path.join(__dirname, '/routes/site'))(app);
 
-app.listen(parseInt(process.env.PORT) || 7777); 
-console.log('Listening on ' + app.address().port);
+
+mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"));
 
 
 io = io.listen(app);
@@ -44,4 +46,8 @@ io.sockets.on('connection', function (socket) {
 events.init(7, function(step) { /* 7 = speed (0..) */
 	io.sockets.emit('event', step);
 });
+
+
+app.listen(parseInt(process.env.PORT) || 7777); 
+console.log('Listening on ' + app.address().port);
 
