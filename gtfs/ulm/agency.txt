@@ -1,0 +1,2 @@
+"agency_name","agency_url","agency_timezone","agency_lang"
+"DatenWerke Ulm","http://ulmapi.de","Europe/Berlin","de"
