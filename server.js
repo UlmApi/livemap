@@ -26,6 +26,8 @@ require(path.join(__dirname, '/routes/site'))(app);
 
 mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"));
 
+console.dir(mapDataGenerator.getStops());
+
 
 io = io.listen(app);
 io.sockets.on('connection', function (socket) {
