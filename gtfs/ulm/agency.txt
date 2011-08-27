@@ -1,3 +1,2 @@
-agency_id,agency_name,agency_url,agency_timezone,agency_lang,agency_phone,agency_fare_url
-1,TriMet,http://trimet.org,America/Los_Angeles,en,503-238-7433,http://trimet.org/fares/
-2,test2,http://trimet.org,America/Los_Angeles,en,503-238-7433,http://trimet.org/fares/
+"agency_name","agency_url","agency_timezone","agency_lang"
+"DatenWerke Ulm","http://ulmapi.de","Europe/Berlin","de"
