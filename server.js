@@ -21,26 +21,15 @@ app.configure(function() {
 	app.set('view engine', 'html');
 });
 
-require(path.join(__dirname, '/routes/site'))(app);
+
+require(path.join(__dirname, '/routes/site'))(app, mapDataGenerator.getStops(), mapDataGenerator.getShapes(),mapDataGenerator.getTrips());
 
 
 mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"));
 
-console.dir(mapDataGenerator.getStops());
-
 
 io = io.listen(app);
 io.sockets.on('connection', function (socket) {
-	
-	socket.on('get', function (get) {
-		if (get.data === "stops")
-			socket.emit('stops', mapDataGenerator.getStops());
-		else if (get.data === "shapes")
-			socket.emit('shapes', mapDataGenerator.getShapes());
-		else if (get.data === "trips")
-			socket.emit('trips', mapDataGenerator.getTrips());
-	});
-	
 });
 
 
