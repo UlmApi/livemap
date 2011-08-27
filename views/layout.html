@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= pageTitle %> – UlmApi.de</title>
+    <meta name="description" content="LiveMap">
+    <meta name="author" content="UlmApi.de">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/css/bootstrap-1.1.1.min.css" rel="stylesheet">
+    <link href="/css/livemap.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    
+    <% if (type == "map") { %>
+	<link rel="stylesheet" href="/css/leaflet.css" />
+	<script type="text/javascript" src="/js/leaflet.js"></script>
+	<script type="text/javascript" src="/js/livemap.js"></script>
+    <% } %>
+    
+  </head>
+
+  <body>
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <h3><a href="/map">UlmApi.de LiveMap</a></h3>
+          <ul>
+            <li <% if (type == "map") { %>class="active" <% } %>><a href="/map">Map</a></li>
+            <li <% if (type == "about") { %>class="active" <% } %>><a href="/about">About</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+
+    <%- body %>	
+
+  </body>
+</html>
