@@ -23,12 +23,15 @@ console.log('Listening on ' + app.address().port);
 
 io = io.listen(app);
 io.sockets.on('connection', function (socket) {
-	  socket.emit('news', { hello: 'world' });
+	/* GeoJSON still missing here! */
+	socket.emit('init', { hello: 'geoJSON' });
 });
 
-setInterval(function() {
-	io.sockets.emit('news', { hello: 'world' });
-}, 1000);
 
-
+/* event simulator, throws an event every 10 secs. */
+var events= require("./lib/event-simulator/event-simulator.js");
+events.init(7, function(step) {
+	/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
+	io.sockets.emit('event', step);
+}); /* 7 = speed (0..) */
 
