@@ -1,0 +1,17 @@
+{
+  "author": "ulmapi <datalove@lists.uni-ulm.de>",
+  "name": "ulmapi-de",
+  "version": "0.0.0",
+  "homepage": "http://ulmapi.de",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/nko2/ulmapi-de.git"
+  },
+  "engines": {
+    "node": "~v0.4.7"
+  },
+  "dependencies": {
+    "nko": "~0.1.1"
+  },
+  "devDependencies": {}
+}
