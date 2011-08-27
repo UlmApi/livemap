@@ -27,6 +27,29 @@ $(document).ready(function(){
 	var hIcon = new StationIcon();
 	
 	
+	$.ajax({
+	  url: '/data/stops',
+		  success: function(data) {
+			var geojson = new L.GeoJSON(null, {
+				pointToLayer: function(latlng) { return new L.Marker(latlng, {icon : hIcon}); }
+			});
+		
+			geojson.on('featureparse', function(e) {
+				// you can style features depending on their properties, etc.
+				var popupText = '<b>' + e.properties.stop_name + '</b>';
+				if (e.layer.setStyle) {
+					e.layer.setStyle({color: e.properties.color});
+					popupText += 'color: ' + e.properties.color;
+				}
+				e.layer.bindPopup(popupText);
+			});
+		
+			geojson.addGeoJSON(data);
+	
+			map.addLayer(geojson);	  
+		}
+	});	
+	
 	var socket = io.connect('/');
 
 	/* event simulator, throws an event every 10 secs. */
@@ -35,44 +58,7 @@ $(document).ready(function(){
 		//console.log(JSON.stringify(step));
 	});
 
-	socket.emit('get', {"data": "stops"});
-	socket.on('stops', function (data) {
 	
-	
-		var geojson = new L.GeoJSON(null, {
-			pointToLayer: function(latlng) { return new L.Marker(latlng, {icon : hIcon}); }
-		});
-		
-		geojson.on('featureparse', function(e) {
-			// you can style features depending on their properties, etc.
-			var popupText = '<b>' + e.properties.stop_name + '</b>';
-			if (e.layer.setStyle) {
-				e.layer.setStyle({color: e.properties.color});
-				popupText += 'color: ' + e.properties.color;
-			}
-			e.layer.bindPopup(popupText);
-		});
-		
-		geojson.addGeoJSON(data);
-		
-		map.addLayer(geojson);
-		
-//		alert(data.length);
-	
-		//console.log(JSON.stringify(data));
-	});
-
-	socket.emit('get', {"data": "shapes"});
-	socket.on('shapes', function (data) {
-//		alert(data.length+"s");
-		//console.log(JSON.stringify(data));
-	});
-
-	socket.emit('get', {"data": "trips"});
-	socket.on('trips', function (data) {
-		alert(data.length+"t");
-		//console.log(JSON.stringify(data));
-	});
 		
 });
 
