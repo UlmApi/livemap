@@ -32,6 +32,8 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 
 		//calculate normalized shapes
 		var pathNormalizer = PathNormalizer(mapData.getShapes());
+		
+		console.dir(mapData.getTrips());
 
 		require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
 
