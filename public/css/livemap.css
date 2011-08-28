@@ -6,3 +6,9 @@ body {
 html,body,#content,#map {
 	height: 100%;
 }
+
+#clock {
+	font-size:18px;
+	float:right;
+	margin:10px 0px 0px 10px;
+}

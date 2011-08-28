@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="/css/leaflet.css" />
 	<script type="text/javascript" src="/js/leaflet.js"></script>
 	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/js/clock.js"></script>
 	<script type="text/javascript" src="/js/livemap.js"></script>
     <% } %>
     
@@ -32,11 +33,12 @@
             <li <% if (type == "map") { %>class="active" <% } %>><a href="/map">Map</a></li>
             <li <% if (type == "about") { %>class="active" <% } %>><a href="/about">About</a></li>
           </ul>
+
+		  <span id="clock">14:12:02</span>
           <iframe style="margin-top:7px;float:right;background:rgba(255, 255, 255, 0.2);border-radius:3px" src="http://nodeknockout.com/iframe/ulmapi-de" frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>
         </div>
       </div>
     </div>
-
 
     <%- body %>	
 
