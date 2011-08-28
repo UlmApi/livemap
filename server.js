@@ -22,6 +22,11 @@ app.configure(function() {
 });
 
 mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), function(mapData) {
+
+	//TODO: @cmichi: sanitize/parse stops and trips
+	
+	//TODO: @b_erb: calculate normalized shapes
+
 	require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
 
 	io = io.listen(app);
