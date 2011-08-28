@@ -21,24 +21,22 @@ app.configure(function() {
 	app.set('view engine', 'html');
 });
 
+mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), function(mapData) {
+	require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
 
-require(path.join(__dirname, '/routes/site'))(app, mapDataGenerator.getStops(), mapDataGenerator.getShapes(),mapDataGenerator.getTrips());
+	io = io.listen(app);
+	io.sockets.on('connection', function (socket) {
+	});
 
 
-mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"));
+	/* event simulator, throws an event every 10 secs. */
+	events.init(7, function(step) { /* 7 = speed (0..) */
+		io.sockets.emit('event', step);
+	});
 
 
-io = io.listen(app);
-io.sockets.on('connection', function (socket) {
+	app.listen(parseInt(process.env.PORT) || 7777); 
+	console.log('Listening on ' + app.address().port);
+
 });
-
-
-/* event simulator, throws an event every 10 secs. */
-events.init(7, function(step) { /* 7 = speed (0..) */
-	io.sockets.emit('event', step);
-});
-
-
-app.listen(parseInt(process.env.PORT) || 7777); 
-console.log('Listening on ' + app.address().port);
 
