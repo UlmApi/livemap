@@ -43,9 +43,49 @@ $(document).ready(function(){
 	});
 	
 	var hIcon = new StationIcon();
+	var bIcon = new BusIcon();
+	var tIcon = new TramIcon();
+	
+	
+	var nullen = function(i) {
+		return (i < 10) ? i = '0' + i : i;
+	};
+
+	var getOffset = function(d) {
+		/* summertime for germany, 2011 */
+		if ((d.getUTCMonth() == 3 && d.getUTCDate() >= 27) ||
+			(d.getUTCMonth() == 10 && d.getUTCDate() <= 30) || 
+			(d.getUTCMonth() > 3 && d.getUTCMonth() < 10))
+		    return 2;
+		else 
+		    return 1;
+	}
+
+	window.setInterval(function() {		
+		var d = new Date();
+		var offset = getOffset(d);
+
+		var hrs = nullen((d.getUTCHours() + offset) % 24);
+		var mins = nullen(d.getUTCMinutes());
+		var secs = nullen(d.getUTCSeconds());
+
+		$("#clock").html(hrs + ':' + mins + ':' + secs);
+	}, 1000);
+
+
+	/* is it a service free period= */
+	var d = new Date();
+	var offset = getOffset(d);
+	if (
+		(((d.getUTCHours() + offset) % 24) > 23 && d.getUTCMinutes() > 30) || 
+		(((d.getUTCHours() + offset) % 24)) < 6){
+		$("#warning").show();
+	}	
 	
 	var stopsLayer;
 	var shapeLayers = {};
+	
+	var trips = {};
 
 	$.ajax({
 	  url: '/data/stops',
@@ -93,57 +133,32 @@ $(document).ready(function(){
 
 	});
 	
-//	var socket = io.connect('/');
+	var socket = io.connect('/');
+	
+	var delayedMoveMarker = function(delay, marker, lat, lon){
+		console.log("reg");
+		setTimeout(function(){
+			console.log("mov");
+			marker.setLatLng(new L.LatLng(lat, lon));
+		},delay);
+	};
+
 
 	/* event simulator, throws an event every 10 secs. */
-//	socket.on('event', function (step) {
+	socket.on('event', function (step) {
+		var newMarker = false;
+		if(!trips[step.trip_id]){
+			trips[step.trip_id] = new L.Marker(new L.LatLng(step.pointList[0][1], step.pointList[0][0]), {icon : bIcon});
+			newMarker = true;
+		}
+		for(var i = 0;i<step.pointList.length;i++){
+			delayedMoveMarker(1000*i, trips[step.trip_id], step.pointList[i][1], step.pointList[i][0]);
+		}
+		if(newMarker){
+			map.addLayer(trips[step.trip_id]);	
+		}
 		/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
-		//console.log(JSON.stringify(step));
-//	});
-
-/*
-
-	socket.emit('get', {"data": "shapes"});
-	socket.on('shapes', function (data) {
-//		alert(data.length+"s");
-		//console.log(JSON.stringify(data));
 	});
-
-	socket.emit('get', {"data": "trips"});
-	socket.on('trips', function (data) {
-		alert(data.length+"t");
-		//console.log(JSON.stringify(data));
-	});
-	
-	
-	
-*/
-
-
-
-var geojson = new L.GeoJSON();
-		
-		/* points are rendered as markers by default, but you can change this:
-			
-		var geojson = new L.GeoJSON(null, {
-			pointToLayer: function(latlng) { return new L.CircleMarker(latlng); }
-		});
-		*/
-		
-		
-		geojson.on('featureparse', function(e) {
-			// you can style features depending on their properties, etc.
-			var popupText = 'geometry type: ' + e.geometryType + '<br/>';
-			if (e.layer.setStyle) {
-				e.layer.setStyle({color: e.properties.color});
-				popupText += 'color: ' + e.properties.color;
-			}
-			e.layer.bindPopup(popupText);
-		});
-		
-		geojson.addGeoJSON({"type":"LineString","coordinates":[[48.394874,9.954786],[48.433643,10.031773],[48.433688,10.031774]]});
-		
-		map.addLayer(geojson);
 		
 });
 
