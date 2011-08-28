@@ -9,6 +9,7 @@ var io = require('socket.io');
 
 var events = require(path.join(__dirname,"lib","event-simulator","event-simulator.js"));
 var mapDataGenerator = require(path.join(__dirname,"lib","map-data-generator","map-data-generator.js"));
+var PathNormalizer = require(path.join(__dirname,"lib","path-normalizer","path-normalizer.js"));
 
 var app = express.createServer();
 
@@ -25,14 +26,14 @@ mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"),
 
 	//TODO: @cmichi: sanitize/parse stops and trips
 	
-	//TODO: @b_erb: calculate normalized shapes
+	//calculate normalized shapes
+	var pathNormalizer = PathNormalizer(mapData.getShapes());
 
 	require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
 
 	io = io.listen(app);
 	io.sockets.on('connection', function (socket) {
 	});
-
 
 	/* event simulator, throws an event every 10 secs. */
 	events.init(7, function(step) { /* 7 = speed (0..) */

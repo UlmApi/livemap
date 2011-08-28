@@ -44,14 +44,17 @@ $(document).ready(function(){
 	
 	var hIcon = new StationIcon();
 	
+	var stopsLayer;
+	var shapeLayers = {};
+
 	$.ajax({
 	  url: '/data/stops',
 		  success: function(data) {
-			var geojson = new L.GeoJSON(null, {
+			stopsLayer = new L.GeoJSON(null, {
 				pointToLayer: function(latlng) { return new L.Marker(latlng, {icon : hIcon}); }
 			});
 		
-			geojson.on('featureparse', function(e) {
+			stopsLayer.on('featureparse', function(e) {
 				// you can style features depending on their properties, etc.
 				var popupText = '<b>' + e.properties.stop_name + '</b>';
 				if (e.layer.setStyle) {
@@ -61,14 +64,36 @@ $(document).ready(function(){
 				e.layer.bindPopup(popupText);
 			});
 		
-			geojson.addGeoJSON(data);
+			stopsLayer.addGeoJSON(data);
 	
-			map.addLayer(geojson);	  
+			map.addLayer(stopsLayer);	  
 		}
 
 	});	
+
+	$.ajax({
+	  url: '/data/shapes',
+		  success: function(data) {
+		  
+		  
+		  	for(var i in data){
+			  	if (data.hasOwnProperty(i)) {
+					shapeLayers[i] = new L.GeoJSON();
+		
+					shapeLayers[i].on('featureparse', function(e) {
+						
+					});
+					
+					shapeLayers[i].addGeoJSON(data[i]);
+					map.addLayer(shapeLayers[i]);	  
+					
+			  	}
+		  	}
+		}
+
+	});
 	
-	var socket = io.connect('/');
+//	var socket = io.connect('/');
 
 	/* event simulator, throws an event every 10 secs. */
 //	socket.on('event', function (step) {
@@ -94,6 +119,31 @@ $(document).ready(function(){
 	
 */
 
+
+
+var geojson = new L.GeoJSON();
+		
+		/* points are rendered as markers by default, but you can change this:
+			
+		var geojson = new L.GeoJSON(null, {
+			pointToLayer: function(latlng) { return new L.CircleMarker(latlng); }
+		});
+		*/
+		
+		
+		geojson.on('featureparse', function(e) {
+			// you can style features depending on their properties, etc.
+			var popupText = 'geometry type: ' + e.geometryType + '<br/>';
+			if (e.layer.setStyle) {
+				e.layer.setStyle({color: e.properties.color});
+				popupText += 'color: ' + e.properties.color;
+			}
+			e.layer.bindPopup(popupText);
+		});
+		
+		geojson.addGeoJSON({"type":"LineString","coordinates":[[48.394874,9.954786],[48.433643,10.031773],[48.433688,10.031774]]});
+		
+		map.addLayer(geojson);
 		
 });
 
