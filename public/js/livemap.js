@@ -47,7 +47,7 @@ $(document).ready(function(){
 	var tIcon = new TramIcon();
 	
 	
-	var nullen = function(i) {
+	var nulls = function(i) {
 		return (i < 10) ? i = '0' + i : i;
 	};
 
@@ -65,9 +65,9 @@ $(document).ready(function(){
 		var d = new Date();
 		var offset = getOffset(d);
 
-		var hrs = nullen((d.getUTCHours() + offset) % 24);
-		var mins = nullen(d.getUTCMinutes());
-		var secs = nullen(d.getUTCSeconds());
+		var hrs = nulls((d.getUTCHours() + offset) % 24);
+		var mins = nulls(d.getUTCMinutes());
+		var secs = nulls(d.getUTCSeconds());
 
 		$("#clock").html(hrs + ':' + mins + ':' + secs);
 	}, 1000);
@@ -84,6 +84,15 @@ $(document).ready(function(){
 	
 	var stopsLayer;
 	var shapeLayers = {};
+	var trips = {};
+	
+	$.ajax({
+	  url: '/data/trips',
+		  success: function(data) {
+		  	trips = data;		  
+		}
+
+	});
 	
 	$.ajax({
 	  url: '/data/stops',
@@ -131,6 +140,8 @@ $(document).ready(function(){
 
 	});
 	
+
+	
 	var socket = io.connect('/');
 
 	var knownTrips = {};
@@ -150,18 +161,24 @@ $(document).ready(function(){
 	};
 
 
-
-
 	/* event simulator, throws an event every 10 secs. */
 	socket.on('event', function (data) {
-	
-		
 		for(var trip in data){
 			if(data.hasOwnProperty(trip)){
 				var newMarker = false;
 				if(!knownTrips[trip]){
-					knownTrips[trip] = new L.Marker(new L.LatLng(data[trip][0][1], data[trip][0][0]), {icon : bIcon});
-					knownTrips[trip].bindPopup(trip);
+					var popup;
+					var markerIcon = bIcon;
+					if(trips && trips[trip]){
+						popup = "<b>"+trips[trip].route_short_name+" – "+trips[trip].trip_headsign+"</b><br>"+trips[trip].route_long_name+"";
+						//bus or tram?
+						markerIcon = (trips[trip].route_type == "0" ? tIcon : bIcon);
+					}
+					else{
+						console.dir(trips);
+					}
+					knownTrips[trip] = new L.Marker(new L.LatLng(data[trip][0][1], data[trip][0][0]), {icon : markerIcon});
+					knownTrips[trip].bindPopup(popup || trip);
 					newMarker = true;
 				}	
 				for(var i = 0;i<data[trip].length;i++){
@@ -172,21 +189,6 @@ $(document).ready(function(){
 				}				
 			}
 		}
-	
-	/*
-		var newMarker = false;
-		if(!trips[step.trip_id]){
-			trips[step.trip_id] = new L.Marker(new L.LatLng(step.pointList[0][1], step.pointList[0][0]), {icon : bIcon});
-			newMarker = true;
-		}
-		for(var i = 0;i<step.pointList.length;i++){
-			delayedMoveMarker(1000*i, trips[step.trip_id], step.pointList[i][1], step.pointList[i][0]);
-		}
-		if(newMarker){
-			map.addLayer(trips[step.trip_id]);	
-		}
-		*/
-		/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
 	});
 		
 });
