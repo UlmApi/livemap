@@ -1,6 +1,8 @@
 $(document).ready(function(){
 
-	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/3a83164a47874169be4cabc2e8b8c449/33481/256/{z}/{x}/{y}.png', cloudmadeAttribution = 'UlmApi.de, Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade', cloudmade = new 	L.TileLayer(
+	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/3a83164a47874169be4cabc2e8b8c449/33481/256/{z}/{x}/{y}.png';
+	var cloudmadeAttribution = 'UlmApi.de, Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+	var cloudmade = new 	L.TileLayer(
 		cloudmadeUrl, {
 		maxZoom : 18,
 		attribution : cloudmadeAttribution
@@ -16,16 +18,31 @@ $(document).ready(function(){
 	var StationIcon = L.Icon.extend({
 	    iconUrl: 'images/station_22x22.png',
 	    shadowUrl: null,
-//	    shadowUrl: 'js/images/marker-shadow.png',
-//	    shadowSize: new L.Point(41,41),
 	    shadowSize: new L.Point(0,0),
 	    iconSize: new L.Point(22, 22),
 	    iconAnchor: new L.Point(11, 11),
 	    popupAnchor: new L.Point(0,-9)
 	});
+
+	var BusIcon = L.Icon.extend({
+	    iconUrl: 'images/bus_20x20.png',
+	    shadowUrl: null,
+	    shadowSize: new L.Point(0,0),
+	    iconSize: new L.Point(20, 20),
+	    iconAnchor: new L.Point(10, 10),
+	    popupAnchor: new L.Point(0,-10)
+	});
+	
+	var TramIcon = L.Icon.extend({
+	    iconUrl: 'images/tram_20x20.png',
+	    shadowUrl: null,
+	    shadowSize: new L.Point(0,0),
+	    iconSize: new L.Point(20, 20),
+	    iconAnchor: new L.Point(10,10),
+	    popupAnchor: new L.Point(0,-10)
+	});
 	
 	var hIcon = new StationIcon();
-	
 	
 	$.ajax({
 	  url: '/data/stops',
@@ -48,17 +65,35 @@ $(document).ready(function(){
 	
 			map.addLayer(geojson);	  
 		}
+
 	});	
 	
 	var socket = io.connect('/');
 
 	/* event simulator, throws an event every 10 secs. */
-	socket.on('event', function (step) {
+//	socket.on('event', function (step) {
 		/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
 		//console.log(JSON.stringify(step));
+//	});
+
+/*
+
+	socket.emit('get', {"data": "shapes"});
+	socket.on('shapes', function (data) {
+//		alert(data.length+"s");
+		//console.log(JSON.stringify(data));
 	});
 
+	socket.emit('get', {"data": "trips"});
+	socket.on('trips', function (data) {
+		alert(data.length+"t");
+		//console.log(JSON.stringify(data));
+	});
 	
+	
+	
+*/
+
 		
 });
 
