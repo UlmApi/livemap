@@ -38,8 +38,33 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), func
 		});
 
 		/* event simulator, throws an event every 10 secs. */
-		gtfsEvents.init(gtfsData, 10000, function(step) { /* 7 = speed (0..) */
-			console.dir(step);
+		gtfsEvents.init(gtfsData, 10000, function(data) {
+		
+			var trips = data.trips;
+			
+			var pushData = {};
+			
+			for(var i in trips){
+				if(trips.hasOwnProperty(i)){
+					var delta = (trips[i].progressThen - trips[i].progressNow) / 10;
+					console.log(delta);
+					var pointList = [];
+					
+					var shapeId = mapData.getShapeIdFromTripId(i);
+					for(var j = 0;j<10;j++){
+						var idx = Math.floor((trips[i].progressNow + j*delta)*1000);
+						if(idx === 1000 || idx ===0){
+							pointList.push([0,0]);
+						}
+						else{
+							pointList.push(pathNormalizer.getNormalizedPath(shapeId)[idx]);
+						}
+					}
+					pushData[i] = pointList;
+				}
+			}
+			
+			/*
 			var p = Math.floor(step.progress * 10);
 
 			step['pointList'] = [];
@@ -48,8 +73,8 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), func
 				step['pointList'].push(pathNormalizer.getNormalizedPath("87001")[p+i]);
 			
 			}
-		
-			io.sockets.emit('event', step);
+			*/
+			io.sockets.emit('event', pushData);
 		});
 
 

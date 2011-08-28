@@ -85,8 +85,6 @@ $(document).ready(function(){
 	var stopsLayer;
 	var shapeLayers = {};
 	
-	var trips = {};
-
 	$.ajax({
 	  url: '/data/stops',
 		  success: function(data) {
@@ -134,18 +132,48 @@ $(document).ready(function(){
 	});
 	
 	var socket = io.connect('/');
+
+	var knownTrips = {};
+
 	
-	var delayedMoveMarker = function(delay, marker, lat, lon){
-		console.log("reg");
+	var delayedMoveMarker = function(delay, trip, lat, lon){
+		var marker = knownTrips[trip];
 		setTimeout(function(){
-			console.log("mov");
-			marker.setLatLng(new L.LatLng(lat, lon));
+			if(lat === 0 && lon === 0){
+				map.removeLayer(marker);
+				delete knownTrips[trip];
+			}
+			else{
+				marker.setLatLng(new L.LatLng(lat, lon));
+			}
 		},delay);
 	};
 
 
+
+
 	/* event simulator, throws an event every 10 secs. */
-	socket.on('event', function (step) {
+	socket.on('event', function (data) {
+	
+		
+		for(var trip in data){
+			if(data.hasOwnProperty(trip)){
+				var newMarker = false;
+				if(!knownTrips[trip]){
+					knownTrips[trip] = new L.Marker(new L.LatLng(data[trip][0][1], data[trip][0][0]), {icon : bIcon});
+					knownTrips[trip].bindPopup(trip);
+					newMarker = true;
+				}	
+				for(var i = 0;i<data[trip].length;i++){
+					delayedMoveMarker(1000*i, trip, data[trip][i][1], data[trip][i][0]);
+				}
+				if(newMarker){
+					map.addLayer(knownTrips[trip]);	
+				}				
+			}
+		}
+	
+	/*
 		var newMarker = false;
 		if(!trips[step.trip_id]){
 			trips[step.trip_id] = new L.Marker(new L.LatLng(step.pointList[0][1], step.pointList[0][0]), {icon : bIcon});
@@ -157,6 +185,7 @@ $(document).ready(function(){
 		if(newMarker){
 			map.addLayer(trips[step.trip_id]);	
 		}
+		*/
 		/* step = {progress: 0..100, timestamp: since 1970, trip_id: 0..} */
 	});
 		
