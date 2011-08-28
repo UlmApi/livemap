@@ -9,8 +9,9 @@ var nullen = function(i) {
 
 var getOffset = function(d) {
 	/* summertime for germany, 2011 */
-	if ((d.getUTCMonth() >= 3 && d.getUTCDay() >= 27) && 
-		(d.getUTCMonth() <= 10 && d.getUTCDay() <= 30))
+	if ((d.getUTCMonth() == 3 && d.getUTCDate() >= 27) ||
+		(d.getUTCMonth() == 10 && d.getUTCDate() <= 30) || 
+		(d.getUTCMonth() > 3 && d.getUTCMonth() < 10))
 	    return 2;
 	else 
 	    return 1;
