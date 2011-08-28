@@ -77,7 +77,7 @@ $(document).ready(function(){
 	var d = new Date();
 	var offset = getOffset(d);
 	if (
-		(((d.getUTCHours() + offset) % 24) > 23 && d.getUTCMinutes() > 30) || 
+		(((d.getUTCHours() + offset) % 24) >= 23 && d.getUTCMinutes() > 30) || 
 		(((d.getUTCHours() + offset) % 24)) < 6){
 		$("#warning").show();
 	}	
