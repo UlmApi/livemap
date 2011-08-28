@@ -56,7 +56,7 @@ $(document).ready(function(){
 		
 			stopsLayer.on('featureparse', function(e) {
 				// you can style features depending on their properties, etc.
-				var popupText = '<b>' + e.properties.stop_name + '</b>';
+				var popupText = '<b>' + e.properties.stop_name + '</b><br/>'+ e.properties.stop_longname;
 				if (e.layer.setStyle) {
 					e.layer.setStyle({color: e.properties.color});
 					popupText += 'color: ' + e.properties.color;
