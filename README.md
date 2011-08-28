@@ -13,6 +13,14 @@ This application is a contribution to the Node Knockout 2011 by UlmApi.de member
 We implemented this proof-of-concept prototype within two days.
 
 
+## Team
+
+Michael Müller
+Simon Fuchs
+Benjamin Erb
+Stefan Kaufmann
+
+
 ## Technologies used
 
 node.js
@@ -30,5 +38,7 @@ bootstrap
 ## What is UlmApi.de?
 
 We are a group of open data enthusiasts, mostly from the University of Ulm.
+
+
 
 
