@@ -15,9 +15,9 @@ We implemented this proof-of-concept prototype within two days.
 
 ## Team
 
-Michael Müller 
-Simon Fuchs 
-Benjamin Erb 
+Michael Müller  
+Simon Fuchs  
+Benjamin Erb  
 Stefan Kaufmann
 
 
