@@ -34,13 +34,28 @@
             <li <% if (type == "about") { %>class="active" <% } %>><a href="/about">About</a></li>
           </ul>
 
-		  <span id="clock">14:12:02</span>
+		  <span id="clock"></span>
           <iframe style="margin-top:7px;float:right;background:rgba(255, 255, 255, 0.2);border-radius:3px" src="http://nodeknockout.com/iframe/ulmapi-de" frameborder=0 scrolling=no allowtransparency=true width=115 height=25></iframe>
         </div>
       </div>
     </div>
 
     <%- body %>	
+
+	<div id="warning" class="modal">
+        <div class="modal-header">
+          <h3>Service free period</h3>
+          <a onclick="javascript:$('#warning').hide();" class="close" href="#">×</a>
+        </div>
+        <div class="modal-body">
+          <p>Please note that the data set is from a German city, 
+			 so the schedule contains service-free periods in the night.</p>
+        </div>
+        <div class="modal-footer">
+          <a class="btn primary" href="#" onclick="javascript:$('#warning').hide();">Close</a>
+        </div>
+      </div>
+
 
   </body>
 </html>
