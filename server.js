@@ -49,10 +49,12 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 			for(var i in trips){
 				if(trips.hasOwnProperty(i)){
 					var delta = (trips[i].progressThen - trips[i].progressNow) / 10;
-					console.log(delta);
+					//console.log(delta);
 					var pointList = [];
 					
 					var shapeId = mapData.getShapeIdFromTripId(i);
+					if (!shapeId) continue;
+					
 					for(var j = 0;j<10;j++){
 						var idx = Math.floor((trips[i].progressNow + j*delta)*1000);
 						if(idx === 1000 || idx ===0){
