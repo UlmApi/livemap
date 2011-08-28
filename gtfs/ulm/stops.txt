@@ -1520,3 +1520,4 @@
 9006464,"Parkstraße (Grüningen (Württ))","Parkstraße","9.456317","48.167807"
 9006468,"Unterdorf (Pflummern)","Unterdorf","9.421271","48.171367"
 9006469,"St. Wendelinus-Straße (Riedlingen (Württ))","St. Wendelinus-Straße","9.493104","48.151358"
+9001000,"Zentraler Omnibusbahnhof (Ulm)","ZOB","9.984413","48.398329"
