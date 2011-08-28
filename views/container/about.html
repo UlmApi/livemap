@@ -8,13 +8,16 @@
       <div class="row">
         <div class="span11">
           <h2>What is this?</h2>
-          <p>The application visualizes the movement of public transportation vehicles in the City of Ulm, Germany. Due to missing live data provided by 
-          the authorities, we scraped available data and converted them to the GTFS format. We then implemented a simple GTFS parser that emulates 
-          the emission of real time events, though based on the static schedule. We hope to evenutally switch the backend event emitter by real time data in the future.
-          The emitted events are consumed by the web application, which renders a map and moves markers according to the estimated location of each vehicle.</p>
+          <p>This application visualizes public transportation vehicles moving through the City of Ulm, Germany. Since the transport authority does not provide
+          a useable data feed, we decided to scrape the timetable data and converted them into the <a href="https://code.google.com/intl/de-DE/transit/spec/transit_feed_specification.html">
+          GTFS format. We then implemented a simple GTFS parser which emulates the emission of real time event information (though it's based on the static data
+          we liberated from their timetable prison. We hope to eventually switch the backend event emitter to realtime data in the future. If anybody out there
+          knows someone working at the Stadtwerke Ulm, please prod them a little *nudge nudge*).
+          The events emitted by the GTFS parser are consumed by the web application, which renders a map and moves markers according to the estimated location of each vehicle.</p>
           <h2>Why?</h2>
           <p>This application is a contribution to the Node Knockout 2011 by <a href="http://ulmapi.de/">UlmApi.de</a> members.
-          We implemented this proof-of-concept prototype within two days.</p>
+          We implemented this proof-of-concept prototype within two days. It is intended to demonstrate what is possible by mashing cool technology and open data
+          together, shaking it well and letting it boil for a while. It might also prove relaxing to watch. Except if you're using Firefox.</p>
         </div>
         <div class="span5">
           <h2>Technologies used</h2>
@@ -48,7 +51,7 @@
         </div>
         <div class="span5">
           <h2>What is UlmApi.de?</h2>
-          <p>We are a group of open data enthusiasts, mostly from the University of Ulm.</p>
+          <p>We are a group of open data enthusiasts, mostly from <a href="http://www.uulm.de">ulm university.</a></p>
        </div>
       </div>
 </div>
