@@ -28,7 +28,7 @@ var gtfsdir = "ulm";
 
 var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), function(gtfsData){
 
-	mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), function(mapData) {
+	mapDataGenerator.gen(gtfsData, process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), function(mapData) {
 
 		//calculate normalized shapes
 		var pathNormalizer = PathNormalizer(mapData.getShapes());
