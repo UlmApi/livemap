@@ -24,9 +24,11 @@ app.configure(function() {
 	app.set('view engine', 'html');
 });
 
-var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), function(gtfsData){
+var gtfsdir = "ulm";
 
-	mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), function(mapData) {
+var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), function(gtfsData){
+
+	mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), function(mapData) {
 
 		//calculate normalized shapes
 		var pathNormalizer = PathNormalizer(mapData.getShapes());
