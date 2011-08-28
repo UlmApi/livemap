@@ -9,6 +9,7 @@ var io = require('socket.io');
 
 var events = require(path.join(__dirname,"lib","event-simulator","event-simulator.js"));
 var mapDataGenerator = require(path.join(__dirname,"lib","map-data-generator","map-data-generator.js"));
+var PathNormalizer = require(path.join(__dirname,"lib","path-normalizer","path-normalizer.js"));
 
 var app = express.createServer();
 
@@ -21,24 +22,27 @@ app.configure(function() {
 	app.set('view engine', 'html');
 });
 
+mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"), function(mapData) {
 
-require(path.join(__dirname, '/routes/site'))(app, mapDataGenerator.getStops(), mapDataGenerator.getShapes(),mapDataGenerator.getTrips());
+	//TODO: @cmichi: sanitize/parse stops and trips
+	
+	//calculate normalized shapes
+	var pathNormalizer = PathNormalizer(mapData.getShapes());
+
+	require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
+
+	io = io.listen(app);
+	io.sockets.on('connection', function (socket) {
+	});
+
+	/* event simulator, throws an event every 10 secs. */
+	events.init(7, function(step) { /* 7 = speed (0..) */
+		io.sockets.emit('event', step);
+	});
 
 
-mapDataGenerator.gen(process.env.GTFS_PATH || path.join(__dirname,"gtfs","ulm"));
+	app.listen(parseInt(process.env.PORT) || 7777); 
+	console.log('Listening on ' + app.address().port);
 
-
-io = io.listen(app);
-io.sockets.on('connection', function (socket) {
 });
-
-
-/* event simulator, throws an event every 10 secs. */
-events.init(7, function(step) { /* 7 = speed (0..) */
-	io.sockets.emit('event', step);
-});
-
-
-app.listen(parseInt(process.env.PORT) || 7777); 
-console.log('Listening on ' + app.address().port);
 

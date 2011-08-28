@@ -6,3 +6,18 @@ body {
 html,body,#content,#map {
 	height: 100%;
 }
+
+#clock {
+	font-size:18px;
+	float:right;
+	margin:10px 0px 0px 10px;
+}
+
+#warning {
+	position: relative; 
+	top: 150px; 
+	left: auto; 
+	margin: 0 auto; 
+	z-index: 999; 
+	display:none;
+}
