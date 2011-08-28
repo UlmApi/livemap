@@ -170,7 +170,7 @@ $(document).ready(function(){
 					var popup;
 					var markerIcon = bIcon;
 					if(trips && trips[trip]){
-						popup = "<b>"+trips[trip].route_short_name+" – "+trips[trip].trip_headsign+"</b><br>"+trips[trip].route_long_name+"";
+						popup = "<b>"+trips[trip].route_short_name+" – "+trips[trip].trip_headsign+"</b><br>"+trips[trip].route_long_name+"<br><i>"+trip+"</i>";
 						//bus or tram?
 						markerIcon = (trips[trip].route_type == "0" ? tIcon : bIcon);
 					}
