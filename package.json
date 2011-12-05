@@ -1,21 +1,20 @@
 {
   "author": "ulmapi <datalove@lists.uni-ulm.de>",
   "name": "ulmapi-de",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "homepage": "http://ulmapi.de",
   "repository": {
     "type": "git",
-    "url": "git://github.com/nko2/ulmapi-de.git"
+    "url": "git://github.com/ulmapi/livemap.git"
   },
   "engines": {
-    "node": "~v0.4.7"
+    "node": ">= v0.4.7"
   },
   "dependencies": {
-    "nko": "~0.1.1",
-    "express" : "~2.4.6",
-    "ejs" : "~0.4.3",
-		"socket.io": "~0.7.9",
-		"socket.io-client": "~0.7.9"
+    "express" : ">= 2.4.6",
+    "ejs" : ">= 0.4.3",
+		"socket.io": ">= 0.7.9",
+		"socket.io-client": ">= 0.7.9"
   },
   "devDependencies": {}
 }
