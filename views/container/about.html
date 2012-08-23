@@ -1,4 +1,44 @@
-<div class="container">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title><%= pageTitle %> – UlmApi.de</title>
+    <meta name="description" content="LiveMap">
+    <meta name="author" content="UlmApi.de">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="/css/bootstrap-1.1.1.min.css" rel="stylesheet">
+    <link href="/css/livemap.css" rel="stylesheet">
+    
+    <script type="text/javascript" src="/js/jquery.min.js"></script>
+    
+    <% if (type == "map") { %>
+	<link rel="stylesheet" href="/css/leaflet.css" />
+	<script type="text/javascript" src="/js/leaflet.js"></script>
+	<script type="text/javascript" src="/socket.io/socket.io.js"></script>
+	<script type="text/javascript" src="/js/clock.js"></script>
+	<script type="text/javascript" src="/js/livemap.js"></script>
+    <% } %>
+    
+  </head>
+
+  <body>
+
+    <div class="topbar">
+      <div class="fill">
+        <div class="container">
+          <h3><a href="/map">UlmApi.de LiveMap</a></h3>
+          <ul>
+            <li <% if (type == "map") { %>class="active" <% } %>><a href="/map">Map</a></li>
+            <li <% if (type == "about") { %>class="active" <% } %>><a href="/about">About</a></li>
+          </ul>
+		  <span id="clock"></span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="container">
      <div class="hero-unit">
         <h1>LiveMap</h1>
         <p>Real-time visualization of public transportation in the City of Ulm, Germany.</p>
@@ -56,3 +96,21 @@
       </div>
 </div>
 
+
+	<div id="warning" class="modal">
+        <div class="modal-header">
+          <h3>It's late night around here!</h3>
+          <a onclick="javascript:$('#warning').hide();" class="close" href="#">×</a>
+        </div>
+        <div class="modal-body">
+          <p>Please keep in mind that Ulm is on UTC+2, and it's not quite Berlin in terms of nightly public transportation service. On this map, we let the night buses run every night instead of only at the weekends, but still... Just check back later during the day to see the magic, or <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Ulmer_M%C3%BCnster">read a bit about that ridiculously ginormous 
+          church</a> we have over here.</p>
+        </div>
+        <div class="modal-footer">
+          <a class="btn primary" href="#" onclick="javascript:$('#warning').hide();">Close</a>
+        </div>
+      </div>
+
+
+  </body>
+</html>
