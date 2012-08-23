@@ -1,7 +1,7 @@
 var path = require('path');
 var http = require('http');
 
-var nko = require('nko')('R8N+nroFbZPS6D4n');
+//var nko = require('nko')('R8N+nroFbZPS6D4n');
 var express = require('express');
 var ejs = require('ejs');
 var io = require('socket.io');
