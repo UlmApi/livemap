@@ -11,10 +11,10 @@
     "node": ">= v0.4.7"
   },
   "dependencies": {
-    "express" : "2.5.x",
-    "ejs" : "0.8.x",
-		"socket.io": "0.9.x",
-		"socket.io-client": "0.9.x"
+    "express" : ">= 2.4.6",
+    "ejs" : ">= 0.4.3",
+		"socket.io": ">= 0.7.9",
+		"socket.io-client": ">= 0.7.9"
   },
   "devDependencies": {}
 }
