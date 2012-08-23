@@ -3,8 +3,8 @@ var http = require('http');
 
 //var nko = require('nko')('R8N+nroFbZPS6D4n');
 var express = require('express');
-var ejs = require('ejs');
-var io = require('socket.io');
+//var ejs = require('ejs');
+//var io = require('socket.io');
 
 
 //var events = require(path.join(__dirname,"lib","event-simulator","event-simulator.js"));
@@ -13,14 +13,19 @@ var mapDataGenerator = require(path.join(__dirname,"lib","map-data-generator","m
 var PathNormalizer = require(path.join(__dirname,"lib","path-normalizer","path-normalizer.js"));
 var Gtfs = require(path.join(__dirname, "lib", "gtfs-parser", "gtfs-loader"));
 
-var app = express.createServer();
+var app = express();
+
+var server = http.createServer(app)
+var io = require('socket.io').listen(server);
+
 
 app.configure(function() {
 	app.use(express.static(__dirname + '/public'));
 	app.use(express.logger());
 	app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
 	app.set('views', __dirname + '/views');
-	app.register('.html', ejs);
+	app.engine('.html', require('ejs').__express);
+//	app.register('.html', ejs);
 	app.set('view engine', 'html');
 });
 
@@ -37,7 +42,6 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 
 		require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
 
-		io = io.listen(app);
 		io.sockets.on('connection', function (socket) {
 		});
 
@@ -83,13 +87,15 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 			io.sockets.emit('event', pushData);
 		});
 
-
-		app.listen(parseInt(process.env.PORT) || 7777); 
-		console.log('Listening on ' + app.address().port);
+		server.listen(process.env.PORT || 7777);
+		//var appServer = app.listen(parseInt(process.env.PORT) || 7777); 
+		console.log('Listening on ' + server.address().port);
 
 	});
 
 	
 });
+
+
 
 

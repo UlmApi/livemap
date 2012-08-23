@@ -15,32 +15,32 @@ $(document).ready(function(){
 		zoomControl : false
 	});
 	
-	var StationIcon = L.Icon.extend({
+	var StationIcon = L.Icon.extend({options:{
 	    iconUrl: 'images/station_22x22.png',
 	    shadowUrl: null,
 	    shadowSize: new L.Point(0,0),
 	    iconSize: new L.Point(22, 22),
 	    iconAnchor: new L.Point(11, 11),
 	    popupAnchor: new L.Point(0,-9)
-	});
+	}});
 
-	var BusIcon = L.Icon.extend({
+	var BusIcon = L.Icon.extend({options:{
 	    iconUrl: 'images/bus_20x20.png',
 	    shadowUrl: null,
 	    shadowSize: new L.Point(0,0),
 	    iconSize: new L.Point(20, 20),
 	    iconAnchor: new L.Point(10, 10),
 	    popupAnchor: new L.Point(0,-10)
-	});
+	}});
 	
-	var TramIcon = L.Icon.extend({
+	var TramIcon = L.Icon.extend({options:{
 	    iconUrl: 'images/tram_20x20.png',
 	    shadowUrl: null,
 	    shadowSize: new L.Point(0,0),
 	    iconSize: new L.Point(20, 20),
 	    iconAnchor: new L.Point(10,10),
 	    popupAnchor: new L.Point(0,-10)
-	});
+	}});
 	
 	var hIcon = new StationIcon();
 	var bIcon = new BusIcon();
@@ -97,25 +97,12 @@ $(document).ready(function(){
 	$.ajax({
 	  url: '/data/stops',
 		  success: function(data) {
-			stopsLayer = new L.GeoJSON(null, {
-				pointToLayer: function(latlng) { return new L.Marker(latlng, {icon : hIcon}); }
-			});
-		
-			stopsLayer.on('featureparse', function(e) {
-				// you can style features depending on their properties, etc.
-				var popupText = '<b>' + e.properties.stop_name + '</b><br/>'+ e.properties.stop_longname;
-				if (e.layer.setStyle) {
-					e.layer.setStyle({color: e.properties.color});
-					popupText += 'color: ' + e.properties.color;
-				}
-				e.layer.bindPopup(popupText);
-			});
-		
-			stopsLayer.addGeoJSON(data);
-	
-			map.addLayer(stopsLayer);	  
-		}
 
+			  L.geoJson(data, {
+					pointToLayer: function(f, latlng) { return new L.Marker(latlng, {icon : hIcon}); }
+				  
+			  }).addTo(map);  
+		  }
 	});	
 
 	$.ajax({
@@ -125,15 +112,11 @@ $(document).ready(function(){
 		  
 		  	for(var i in data){
 			  	if (data.hasOwnProperty(i)) {
-					shapeLayers[i] = new L.GeoJSON();
-		
-					shapeLayers[i].on('featureparse', function(e) {
+
+			  		L.geoJson(data[i], {
 						
-					});
-					
-					shapeLayers[i].addGeoJSON(data[i]);
-					map.addLayer(shapeLayers[i]);	  
-					
+					  
+				  }).addTo(map); 
 			  	}
 		  	}
 		}
