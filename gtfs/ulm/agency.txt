@@ -1,2 +1,2 @@
 "agency_name","agency_url","agency_timezone","agency_lang"
-"DatenWerke Ulm","http://ulmapi.de","Europe/Berlin","de"
+"OpenDatenWerke Ulm (beta, scraped from SWU data)","http://ulmapi.de","Europe/Berlin","de"
