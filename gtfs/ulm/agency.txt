@@ -1,2 +1,2 @@
-"agency_name","agency_url","agency_timezone","agency_lang"
-"OpenDatenWerke Ulm (beta, scraped from SWU data)","http://ulmapi.de","Europe/Berlin","de"
+"agency_id","agency_name","agency_url","agency_timezone","agency_lang"
+"SWU","Stadtwerke Ulm","http://www.swu.de","Europe/Berlin","de"
