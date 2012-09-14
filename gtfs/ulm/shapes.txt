@@ -1,4 +1,4 @@
-shape_id,shape_pt_lat,shape_pt_lon,shape_pt_sequence
+shape_id,shape_pt_lon,shape_pt_lat,shape_pt_sequence
 87907Rnightbus-2701,9.982635,48.35373,0
 87907Rnightbus-2701,9.982090,48.35343,1
 87907Rnightbus-2701,9.981790,48.35328,2
