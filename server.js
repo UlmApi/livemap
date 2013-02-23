@@ -95,7 +95,3 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 
 	
 });
-
-
-
-
