@@ -172,7 +172,10 @@ $(document).ready(function(){
 			}
 		}
 	});
-		
+	
+	if (window.location.hash === '#fullscreen') {
+		removeTopbar();
+	}
 });
 
 
