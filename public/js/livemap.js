@@ -176,5 +176,6 @@ $(document).ready(function(){
 });
 
 
-
-
+function removeTopbar() {
+  document.querySelector('div.topbar').remove();
+}
