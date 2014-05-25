@@ -1,7 +1,7 @@
 $(document).ready(function(){
 
-	var cloudmadeUrl = 'http://{s}.tile.cloudmade.com/3a83164a47874169be4cabc2e8b8c449/43782/256/{z}/{x}/{y}.png';
-	var cloudmadeAttribution = '<a href="http://www.ulmapi.de">UlmApi.de</a>, Map data &copy; 2011 OpenStreetMap contributors, Imagery &copy; 2011 CloudMade';
+	var cloudmadeUrl = 'http://134.60.77.150/osm/{z}/{x}/{y}.png';
+	var cloudmadeAttribution = '<a href="http://www.ulmapi.de">UlmApi.de</a>, Map data &copy; 2014 OpenStreetMap contributors, Imagery &copy; 2014 OpenStreetMap contributors';
 	var cloudmade = new 	L.TileLayer(
 		cloudmadeUrl, {
 		maxZoom : 18,
