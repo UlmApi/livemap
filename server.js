@@ -3,6 +3,8 @@ var http = require('http');
 
 //var nko = require('nko')('R8N+nroFbZPS6D4n');
 var express = require('express');
+var morgan  = require('morgan');
+var errorhandler = require('errorhandler');
 //var ejs = require('ejs');
 //var io = require('socket.io');
 
@@ -19,15 +21,13 @@ var server = http.createServer(app)
 var io = require('socket.io').listen(server);
 
 
-app.configure(function() {
-	app.use(express.static(__dirname + '/public'));
-	app.use(express.logger());
-	app.use(express.errorHandler({dumpExceptions: true, showStack: true}));
-	app.set('views', __dirname + '/views');
-	app.engine('.html', require('ejs').__express);
-//	app.register('.html', ejs);
-	app.set('view engine', 'html');
-});
+app.use(express.static(__dirname + '/public'));
+app.use(morgan());
+app.use(errorhandler({dumpExceptions: true, showStack: true}));
+app.set('views', __dirname + '/views');
+app.engine('.html', require('ejs').__express);
+//app.register('.html', ejs);
+app.set('view engine', 'html');
 
 var gtfsdir = "ulm";
 
@@ -37,7 +37,7 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 
 		//calculate normalized shapes
 		var pathNormalizer = PathNormalizer(mapData.getShapes());
-		
+
 		console.dir(mapData.getTrips());
 
 		require(path.join(__dirname, '/routes/site'))(app, mapData.getStops(), mapData.getShapes(),mapData.getTrips());
@@ -47,20 +47,20 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 
 		/* event simulator, throws an event every 10 secs. */
 		gtfsEvents.init(gtfsData, 10000, function(data) {
-		
+
 			var trips = data.trips;
-			
+
 			var pushData = {};
-			
+
 			for(var i in trips){
 				if(trips.hasOwnProperty(i)){
 					var delta = (trips[i].progressThen - trips[i].progressNow) / 10;
 					//console.log(delta);
 					var pointList = [];
-					
+
 					var shapeId = mapData.getShapeIdFromTripId(i);
 					if (!shapeId) continue;
-					
+
 					for(var j = 0;j<10;j++){
 						var idx = Math.floor((trips[i].progressNow + j*delta)*1000);
 						if(idx === 1000 || idx ===0){
@@ -73,7 +73,7 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 					pushData[i] = pointList;
 				}
 			}
-			
+
 			/*
 			var p = Math.floor(step.progress * 10);
 
@@ -81,17 +81,17 @@ var gtfs = Gtfs(process.env.GTFS_PATH || path.join(__dirname,"gtfs",gtfsdir), fu
 			step['foo'] = p;
 			for(var i = 0;i<10;i++){
 				step['pointList'].push(pathNormalizer.getNormalizedPath("87001")[p+i]);
-			
+
 			}
 			*/
 			io.sockets.emit('event', pushData);
 		});
 
 		server.listen(process.env.PORT || 7777);
-		//var appServer = app.listen(parseInt(process.env.PORT) || 7777); 
+		//var appServer = app.listen(parseInt(process.env.PORT) || 7777);
 		console.log('Listening on ' + server.address().port);
 
 	});
 
-	
+
 });
