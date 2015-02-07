@@ -1,6 +1,6 @@
 $(document).ready(function(){
 
-	var cloudmadeUrl = 'http://134.60.77.150/osm/{z}/{x}/{y}.png';
+	var cloudmadeUrl = 'http://tiles.codefor.de/static/bbs/germany/{z}/{x}/{y}.png';
 	var cloudmadeAttribution = '<a href="http://www.ulmapi.de">UlmApi.de</a>, Map data &copy; 2014 OpenStreetMap contributors, Imagery &copy; 2014 OpenStreetMap contributors';
 	var cloudmade = new 	L.TileLayer(
 		cloudmadeUrl, {
